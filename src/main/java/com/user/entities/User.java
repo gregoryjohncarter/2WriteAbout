@@ -1,11 +1,15 @@
 package com.user.entities;
+import com.post.entities.Post;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import org.mindrot.jbcrypt.*;
 
 @Entity
 @Table(name = "USERS")
@@ -52,4 +56,15 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String hashPassword(String plainTextPassword){
+		return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
+	}
+
+    public Boolean checkPass(String plainPassword, String hashedPassword) {
+		if (BCrypt.checkpw(plainPassword, hashedPassword))
+			return true;
+		else
+			return false;
+	}
 }

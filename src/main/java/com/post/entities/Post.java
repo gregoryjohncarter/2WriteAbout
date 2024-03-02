@@ -1,11 +1,14 @@
 package com.post.entities;
+import com.user.entities.User;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import java.util.Date;
 
 @Entity
@@ -28,15 +31,13 @@ public class Post {
 
     private String text;
 
-    @CreatedDate
     private Date createdAt;
 
-    @LastModifiedDate
-    private Date updatedAt;
+    // @ManyToOne
+    // @JoinColumn(name = "userId", nullable = false)
+    // private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Integer userId;
 
     public Integer getId() {
         return id;
@@ -94,19 +95,19 @@ public class Post {
         this.text = text;
     }
 
+    public Integer getUserId() { 
+        return userId;
+    }
+
+    public void setUserId(Integer userId) { 
+        this.userId = userId; 
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }
