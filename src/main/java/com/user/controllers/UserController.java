@@ -29,6 +29,10 @@ public class UserController {
 
     @PostMapping("/user")
     public User createNewUser(@RequestBody User user) {
+        User userLogin = this.userRepository.findByEmail(user.getEmail());
+        if (userLogin != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "user with this email already");
+        }
         user.setPassword(user.hashPassword(user.getPassword()));
         User newUser = this.userRepository.save(user);
         return newUser;

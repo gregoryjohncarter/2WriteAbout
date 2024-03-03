@@ -37,4 +37,44 @@ public class PostController {
         Post newPost = this.postRepository.save(post);
         return newPost;
     }
+
+    @PutMapping("/post/{id}")
+    public Post updatePost(@PathVariable("id") Integer id, @RequestBody Post post) {
+        Optional<Post> postToUpdateOptional = this.postRepository.findById(id);
+        if (!postToUpdateOptional.isPresent()) {
+            return null;
+        }
+        Post postToUpdate = postToUpdateOptional.get();
+        if (post.getTitle() != null) {
+            postToUpdate.setTitle(post.getTitle());
+        }
+        if (post.getSong() != null) {
+            postToUpdate.setSong(post.getSong());
+        }
+        if (post.getArtist() != null) {
+            postToUpdate.setArtist(post.getArtist());
+        }
+        if (post.getBook() != null) {
+            postToUpdate.setBook(post.getBook());
+        }
+        if (post.getAuthor() != null) {
+            postToUpdate.setAuthor(post.getAuthor());
+        }
+        if (post.getText() != null) {
+            postToUpdate.setText(post.getText());
+        }
+        Post updatedPost = this.postRepository.save(postToUpdate);
+        return updatedPost;
+    }
+
+    @DeleteMapping("/post/{id}")
+    public Post deletePost(@PathVariable("id") Integer id) {
+        Optional<Post> postToDeleteOptional = this.postRepository.findById(id);
+        if (!postToDeleteOptional.isPresent()) {
+            return null;
+        }
+        Post postToDelete = postToDeleteOptional.get();
+        this.postRepository.delete(postToDelete);
+        return postToDelete;
+    }
 }

@@ -21,6 +21,7 @@ public class User {
 
     private String username;
 
+    @Column(unique=true)
     private String email;
 
     private String password;
@@ -57,14 +58,15 @@ public class User {
         this.password = password;
     }
 
-    public String hashPassword(String plainTextPassword){
+    public String hashPassword(String plainTextPassword) {
 		return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
 	}
 
     public Boolean checkPass(String plainPassword, String hashedPassword) {
-		if (BCrypt.checkpw(plainPassword, hashedPassword))
-			return true;
-		else
-			return false;
+		if (BCrypt.checkpw(plainPassword, hashedPassword)) {
+		    return true;
+        } else {
+            return false;
+        }	
 	}
 }
