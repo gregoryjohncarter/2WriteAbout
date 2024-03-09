@@ -1,0 +1,104 @@
+body {
+  background-color: #222;
+}
+
+.banner-bg {
+  --s: 150px; /* control the size */
+  --c1: #1d1d1d;
+  --c2: #4e4f51;
+  --c3: #3c3c3c;
+  background:
+    repeating-conic-gradient(from 30deg,#0000 0 120deg,var(--c3) 0 180deg) 
+     calc(.5*var(--s)) calc(.5*var(--s)*0.577),
+    repeating-conic-gradient(from 30deg,var(--c1) 0 60deg,var(--c2) 0 120deg,var(--c3) 0 180deg);
+  background-size: var(--s) calc(var(--s)*0.577);
+  border: 10px solid darkslategray;
+}
+
+.text-inlay {
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background: linear-gradient(
+  to bottom,
+  #97aa89,
+  #97aa89 50%,
+  #627765 50%,
+  #627765
+  );
+  background-size: 20% 15px;
+  background-clip: text;
+  display: block;
+  text-shadow: 2px -2px 10px white;
+}
+
+.cantata-one-regular {
+  font-family: "Cantata One", serif;
+  font-weight: 400;
+  font-size: 28px;
+  font-style: normal;
+}
+
+.media-box {
+  background: #464646;
+  flex: 1 100%;
+  position: relative;
+  background: linear-gradient(to bottom, #85a19f, #9fb8cf);
+  padding: 10px;
+  margin-top: 20px;
+  border-top: 10px solid gray;
+}
+
+.flex-mobi {
+  display: flex;
+  flex-direction: row;
+}
+
+.modal-style {
+  display:flex;
+  height: 450px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #3b3b3bd0;
+  width: 700px;
+  border: 3px solid #000000ad;
+  flex-direction: column;
+  padding: 20px;
+  z-index: 5;
+}
+
+.modal-style-2 {
+  background-color: #4d4d4deb;
+}
+
+.mytbl{
+  max-height: calc(100vh - 120px);
+  overflow-y: scroll;
+}
+
+.app-container {
+  background-color: #5a615b;
+  min-height: 100vh;
+}
+
+@media screen and (max-width: 980px) {
+}
+
+@media screen and (max-width: 768px) {
+  .flex-mobi {
+    flex-direction: column;
+  }
+  .modal-style {
+    width: 600px;
+  }
+  .media-box {
+    margin-top: 0px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .modal-style {
+    width: 300px;
+  }
+}

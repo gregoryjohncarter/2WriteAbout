@@ -7,9 +7,11 @@ target/
 # dependencies
 /node_modules
 /frontend/node_modules
+/src/main/frontend/node_modules
 /.pnp
 .pnp.js
 
+/src/main/frontend/.env
 .env
 .env.local
 .env.development.local
