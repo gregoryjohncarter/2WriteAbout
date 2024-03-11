@@ -50,7 +50,7 @@ body {
 
 .flex-mobi {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .modal-style {
@@ -82,6 +82,77 @@ body {
   min-height: 100vh;
 }
 
+.card {
+  background-color: whitesmoke !important;
+  margin: 5px;
+}
+
+.alternate {
+  background-color: #c4c4c4 !important;
+  margin: 10px;
+}
+
+.last-font {
+  font-family: Verdana, sans-serif;
+  font-size: 13px;
+  padding: 10px;
+  margin-bottom: -10px;
+}
+
+.choose-plus {
+  font-family:'Lucida Sans', Geneva, sans-serif;
+  font-size: 13px;
+  padding: 10px;
+}
+
+.title-font {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.artist-font {
+  font-family: Geneva, sans-serif;
+  color: #242a61;
+  font-weight: 550;
+}
+
+.song-tile {
+  padding: 5px;
+  flex: 0 100%;
+}
+
+.song-tile-font {
+  margin: -10px;
+  font-family: 'Lucida Sans Regular', sans-serif, Verdana
+}
+
+.song-tile-artist {
+  margin: -10px;
+  font-family: 'Lucida Sans Regular', sans-serif, Verdana
+}
+
+.book-tile {
+  padding: 5px;
+  flex: 0 100%;
+}
+
+.book-tile-font {
+  margin: -10px;
+  font-family: 'Lucida Sans Regular', sans-serif, Verdana
+}
+
+.book-tile-artist {
+  margin: -10px;
+  font-family: 'Lucida Sans Regular', sans-serif, Verdana
+}
+
+.audio-file {
+  border-bottom: 3px solid #183492;
+}
+
+.menu-book {
+  border-bottom: 3px solid #183492;
+}
+
 @media screen and (max-width: 980px) {
 }
 
@@ -94,11 +165,24 @@ body {
   }
   .media-box {
     margin-top: 0px;
+    border-top: 0px;
   }
 }
 
 @media screen and (max-width: 575px) {
   .modal-style {
     width: 300px;
+  }
+  .song-tile-font {
+    font-family: monospace, sans-serif, Verdana;
+  }
+  .song-tile-artist {
+    font-family: monospace, sans-serif, Verdana;
+  }
+  .book-tile-font {
+    font-family: monospace, sans-serif, Verdana;
+  }
+  .book-tile-artist {
+    font-family: monospace, sans-serif, Verdana;
   }
 }

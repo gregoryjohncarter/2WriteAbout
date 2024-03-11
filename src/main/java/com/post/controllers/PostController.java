@@ -54,11 +54,17 @@ public class PostController {
         if (post.getArtist() != null) {
             postToUpdate.setArtist(post.getArtist());
         }
+         if (post.getLastFmUrl() != null) {
+            postToUpdate.setLastFmUrl(post.getLastFmUrl());
+        }
         if (post.getBook() != null) {
             postToUpdate.setBook(post.getBook());
         }
         if (post.getAuthor() != null) {
             postToUpdate.setAuthor(post.getAuthor());
+        }
+        if (post.getGoogBooksUrl() != null) {
+            postToUpdate.setGoogBooksUrl(post.getGoogBooksUrl());
         }
         if (post.getText() != null) {
             postToUpdate.setText(post.getText());

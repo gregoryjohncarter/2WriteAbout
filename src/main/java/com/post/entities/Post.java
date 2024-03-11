@@ -23,11 +23,15 @@ public class Post {
 
     private String song;
 
+    private String lastFmUrl;
+
     private String artist;
 
     private String book;
 
     private String author;
+
+    private String googBooksUrl;
 
     private String text;
 
@@ -71,6 +75,14 @@ public class Post {
         this.artist = artist;
     }
 
+    public String getLastFmUrl() {
+        return lastFmUrl;
+    }
+
+    public void setLastFmUrl(String lastFmUrl) {
+        this.lastFmUrl = lastFmUrl;
+    }
+
     public String getBook() {
         return book;
     }
@@ -85,6 +97,14 @@ public class Post {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getGoogBooksUrl() {
+        return googBooksUrl;
+    }
+
+    public void setGoogBooksUrl(String googBooksUrl) {
+        this.googBooksUrl = googBooksUrl;
     }
 
     public String getText() {
