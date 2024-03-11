@@ -15,6 +15,11 @@ body {
   border: 10px solid darkslategray;
 }
 
+.app-container-start {
+  background-color: #5a615b;
+  min-height: 30vh;
+}
+
 .text-inlay {
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
@@ -36,6 +41,20 @@ body {
   font-weight: 400;
   font-size: 28px;
   font-style: normal;
+}
+
+.step-1 {
+  font-family: 'PT Serif', serif, sans-serif;
+}
+
+.learn-more {
+  font-family: 'Lora', sans-serif;
+  color: #2196f3;
+}
+
+.step-2 {
+  font-family:'Lucida Sans', sans-serif, Verdana;
+  font-size: 14px;
 }
 
 .media-box {

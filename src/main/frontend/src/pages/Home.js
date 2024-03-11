@@ -11,6 +11,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Icon from '@mui/material/Icon';
 
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+
 const Home = () => {
   const [loginStatus, setLoginStatus] = useState(0);
   const [postsList, setPostsList] = useState([]);
@@ -118,61 +122,104 @@ const Home = () => {
             </Button>
           </div>
         </Box>
+        {loginStatus ? 
+          <Box
+            display='flex'
+            className='media-box'
+          >
+            <ItemPanel
+              lastApiFunc={lastApiFunc}
+              googleApiFunc={googleApiFunc}
+              lastApiItems={lastApiItems}
+              googleApiItems={googleApiItems}
+              setLastApiItems={setLastApiItems}
+              setGoogleApiItems={setGoogleApiItems}
+              currentPost={currentPost}
+              songTile={songTile}
+              setSongTile={setSongTile}
+              bookTile={bookTile}
+              setBookTile={setBookTile}
+              postUpdate={postUpdate}
+              setPostUpdate={setPostUpdate}
+              displaySelect={displaySelect}
+            />
+          </Box> : <></>
+        }
+      </div>
+      {loginStatus ? 
         <Box
           display='flex'
-          className='media-box'
-        >
-          <ItemPanel
-            lastApiFunc={lastApiFunc}
-            googleApiFunc={googleApiFunc}
-            lastApiItems={lastApiItems}
-            googleApiItems={googleApiItems}
-            setLastApiItems={setLastApiItems}
-            setGoogleApiItems={setGoogleApiItems}
-            currentPost={currentPost}
-            songTile={songTile}
-            setSongTile={setSongTile}
-            bookTile={bookTile}
-            setBookTile={setBookTile}
-            postUpdate={postUpdate}
-            setPostUpdate={setPostUpdate}
-            displaySelect={displaySelect}
-          />
+          className='app-container'
+          flexDirection='column'
+        > 
+          {(lastApiItems.length > 0 || googleApiItems.length > 0) && 
+            <ItemResults
+              lastApiItems={lastApiItems} 
+              googleApiItems={googleApiItems}
+              setSongTile={setSongTile}
+              setBookTile={setBookTile}
+              setLastApiItems={setLastApiItems}
+              setGoogleApiItems={setGoogleApiItems}
+            />
+          }
+          {displaySelect === 'select' ?
+            <PostsBar 
+              postsList={postsList} 
+              setCurrentPost={setCurrentPost}
+              setDisplaySelect={setDisplaySelect}
+            /> 
+            : displaySelect === 'post' ? 
+            <Post 
+              currentPost={currentPost}
+              setCurrentPost={setCurrentPost} 
+              postUpdate={postUpdate} 
+              setPostUpdate={setPostUpdate}
+              setDisplaySelect={setDisplaySelect}
+            /> 
+            : 
+            <></>
+          }
         </Box>
-      </div>
-      <Box
-        display='flex'
-        className='app-container'
-        flexDirection='column'
-      > 
-        {(lastApiItems.length > 0 || googleApiItems.length > 0) && 
-          <ItemResults
-            lastApiItems={lastApiItems} 
-            googleApiItems={googleApiItems}
-            setSongTile={setSongTile}
-            setBookTile={setBookTile}
-            setLastApiItems={setLastApiItems}
-            setGoogleApiItems={setGoogleApiItems}
-          />
-        }
-        {displaySelect === 'select' ?
-          <PostsBar 
-            postsList={postsList} 
-            setCurrentPost={setCurrentPost}
-            setDisplaySelect={setDisplaySelect}
-          /> 
-          : displaySelect === 'post' ? 
-          <Post 
-            currentPost={currentPost}
-            setCurrentPost={setCurrentPost} 
-            postUpdate={postUpdate} 
-            setPostUpdate={setPostUpdate}
-            setDisplaySelect={setDisplaySelect}
-          /> 
-          : 
-          <></>
-        }
-      </Box>
+      :
+        <Box
+          display='flex'
+          className='app-container-start'
+          flexDirection='column'
+        > 
+          <div style={{padding: '30px', display: 'flex'}}>
+            <div style={{flex: '1 50%', display: 'inline-flex'}}>
+              <Icon style={{borderBottom: '2px solid #4b6fbb'}}>person</Icon>
+              <h4 className='step-1'>Create an account & log in to get started</h4>
+            </div>
+            <div style={{flex: '1 50%', display: 'inline-flex'}}>
+              <Icon style={{borderBottom: '2px solid #4b6fbb'}}>add_box</Icon>
+              <h4 className='step-1'>Start writing posts for your own use</h4>
+            </div>
+          </div>
+          <div style={{padding: '40px', paddingTop: '0px'}}>
+            <Accordion style={{backgroundColor: '#b1b1b1'}}>
+              <AccordionSummary
+                expandIcon={<Icon color='primary'>expand_more</Icon>}
+                aria-controls="panel2-content"
+                id="panel2-header"
+              >
+                <h4 className='learn-more'>Additional information</h4>
+              </AccordionSummary>
+              <AccordionDetails style={{display: 'flex', flexDirection: 'column'}}>
+                <div style={{display:'inline-flex'}}>
+                  <Icon style={{marginTop: '10px'}}>arrow_right</Icon><p className='step-2'>Choose your post to view on the sidebar, navigate back to change posts</p>
+                </div>
+                <div style={{display:'inline-flex'}}>
+                  <Icon fontSize='small' style={{marginTop: '10px', marginRight: '5px'}}>mode_comment</Icon><p className='step-2'>After writing your post, save at the bottom</p>
+                </div>
+                <div style={{display:'inline-flex'}}>
+                  <Icon style={{marginTop: '10px', marginRight: '5px'}}>add_circle_outline</Icon><p className='step-2'>Search for subjects using Last.fm & Google Books APIs on top and then choose a song and/or book to add</p>
+                </div>
+              </AccordionDetails>
+            </Accordion>
+          </div>
+        </Box>
+      }
       <LoginForm 
         openModal={openLogin} 
         setOpenModal={setOpenLogin} 
