@@ -19,9 +19,9 @@ const Home = () => {
   const [loginStatus, setLoginStatus] = useState(0);
   const [postsList, setPostsList] = useState([]);
   const [openLogin, setOpenLogin] = useState(false);
-  const [displaySelect, setDisplaySelect] = useState('');
-  const [currentPost, setCurrentPost] = useState([]);
-  const [postUpdate, setPostUpdate] = useState([]);
+  const [displaySelect, setDisplaySelect] = useState('select');
+  const [currentPost, setCurrentPost] = useState(false);
+  const [postUpdate, setPostUpdate] = useState(false);
 
   // useEffect(() => {
   //   if (loginStatus !== 0) {
@@ -102,10 +102,6 @@ const Home = () => {
   const [songTile, setSongTile] = useState(false);
   const [bookTile, setBookTile] = useState(false);
 
-  console.log(lastApiItems);
-  console.log(googleApiItems);
-  console.log(songTile);
-
   return (
     <Container maxWidth='md'>
       <div className='flex-mobi'>
@@ -141,7 +137,7 @@ const Home = () => {
               setBookTile={setBookTile}
               postUpdate={postUpdate}
               setPostUpdate={setPostUpdate}
-              displaySelect={displaySelect}
+              setDisplaySelect={setDisplaySelect}
             />
           </Box> : <></>
         }
@@ -202,18 +198,19 @@ const Home = () => {
                 expandIcon={<Icon color='primary'>expand_more</Icon>}
                 aria-controls="panel2-content"
                 id="panel2-header"
+                style={{backgroundColor: '#a0a0a0'}}
               >
                 <h4 className='learn-more'>Additional information</h4>
               </AccordionSummary>
               <AccordionDetails style={{display: 'flex', flexDirection: 'column'}}>
                 <div style={{display:'inline-flex'}}>
-                  <Icon style={{marginTop: '10px'}}>arrow_right</Icon><p className='step-2'>Choose your post to view on the sidebar, navigate back to change posts</p>
+                  <Icon style={{marginTop: '10px', marginRight: '5px'}}>add_circle_outline</Icon><p className='step-2'>Search for subjects using Last.fm & Google Books APIs on top and then choose a song and/or book to add</p>
                 </div>
                 <div style={{display:'inline-flex'}}>
                   <Icon fontSize='small' style={{marginTop: '10px', marginRight: '5px'}}>mode_comment</Icon><p className='step-2'>After writing your post, save at the bottom</p>
                 </div>
                 <div style={{display:'inline-flex'}}>
-                  <Icon style={{marginTop: '10px', marginRight: '5px'}}>add_circle_outline</Icon><p className='step-2'>Search for subjects using Last.fm & Google Books APIs on top and then choose a song and/or book to add</p>
+                  <Icon fontSize='large' style={{marginRight: '-10px', marginLeft: '-5px'}}>arrow_right</Icon><p className='step-2'>Choose your post to view on the sidebar, edit at the bottom, or navigate back to select a different post</p>
                 </div>
               </AccordionDetails>
             </Accordion>
