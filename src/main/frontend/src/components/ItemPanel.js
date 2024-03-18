@@ -20,9 +20,17 @@ const ItemPanel = ({
   setSongTile, 
   bookTile, 
   setBookTile, 
-  postUpdate, 
-  setPostUpdate, 
-  setDisplaySelect
+  postUpdate,
+  setPostUpdate,
+  newPost,
+  setNewPost,
+  setDisplaySelect,
+  lastNone,
+  booksNone,
+  postTitleVal,
+  postContentVal,
+  setPostTitleVal,
+  setPostContentVal
 }) => {
   const [lastSearchQuery, setLastSearchQuery] = useState('');
   const [googleSearchQuery, setGoogleSearchQuery] = useState('');
@@ -33,6 +41,12 @@ const ItemPanel = ({
     }
     lastApiFunc(searchQuery);
     setLastSearchQuery('');
+    if (newPost) {
+      setNewPost({title: postTitleVal, text: postContentVal, ...newPost});
+    }
+    if (postUpdate) {
+      setPostUpdate({title: postTitleVal, text: postContentVal, ...postUpdate});
+    }
   }
 
   const handleGoogleApiSearch = (searchQuery) => {
@@ -41,20 +55,39 @@ const ItemPanel = ({
     }
     googleApiFunc(searchQuery);
     setGoogleSearchQuery('');
+    if (newPost) {
+      setNewPost({title: postTitleVal, text: postContentVal, ...newPost});
+    }
+    if (postUpdate) {
+      setPostUpdate({title: postTitleVal, text: postContentVal, ...postUpdate});
+    }
   }
 
   const handleCreatePost = () => {
     setDisplaySelect('post');
-    setPostUpdate({title: '', text: '', songTitle: '', songArtist: '', songLink: '', bookTitle: '', bookAuthor: '', bookLink: ''});
+    setNewPost({title: '', text: '', song: '', artist: '', lastFmUrl: '', book: '', author: '', googBooksUrl: ''});
+    setPostTitleVal('');
+    setPostContentVal('');
+    setSongTile(false);
+    setBookTile(false);
   }
+
+  useEffect(() => {
+    if (currentPost.song) {
+      setSongTile({title:currentPost.song, artist:currentPost.artist, link:currentPost.lastFmUrl})
+    }
+    if (currentPost.book) {
+      setBookTile({title:currentPost.book, author:currentPost.author, link:currentPost.googBooksUrl});
+    }
+  }, [currentPost]);
 
   return (
     <>
-      {(currentPost || postUpdate) ? 
+      {(currentPost || postUpdate || newPost) ? 
         <Grid container spacing={2}>
           <Grid item xs={9} sm={6}>
             {songTile ? 
-              <div stlye={{display:'flex'}}>
+              <div style={{display:'flex'}}>
                 <Card className='song-tile' sx={{ minWidth: 225 }}>
                   <CardContent className='song-tile-font'>
                     {songTile.title}
@@ -66,7 +99,7 @@ const ItemPanel = ({
                     </div>
                     <div style={{flex: '0 0%', position: 'absolute', right: '0px', bottom: '-5px'}}>
                       <CardActions>
-                        <Button onClick={()=>setSongTile(false)}><Icon fontSize="large">cancel</Icon></Button>
+                        {!currentPost && <Button onClick={()=>setSongTile(false)}><Icon fontSize="large">cancel</Icon></Button>}
                       </CardActions>
                     </div>
                   </CardContent>
@@ -82,10 +115,19 @@ const ItemPanel = ({
                 label='Search song' 
                 variant='filled' 
                 size='small'
-                // style={{backgroundColor:'whitesmoke'}}
                 value={lastSearchQuery}
                 InputProps={{endAdornment: <Button onClick={()=>setLastApiItems([])} variant='outlined' title='Clear search results'><Icon>cancel</Icon></Button>}}
-              /> : 
+              /> 
+            : lastNone ? 
+              <TextField
+                disabled
+                id='outlined-disabled'
+                label='No tracks found' 
+                variant='filled' 
+                size='small'
+                value={lastSearchQuery}
+              />
+            : !currentPost ?
               <TextField 
                 id='filled-basic' 
                 label='Search song' 
@@ -95,6 +137,15 @@ const ItemPanel = ({
                 onChange={(e)=>setLastSearchQuery(e.target.value)}
                 value={lastSearchQuery}
                 InputProps={{endAdornment: <Button onClick={()=>handleLastApiSearch(lastSearchQuery)} variant='outlined' title='Search Last.fm API'><Icon>forward_arrow</Icon></Button>}}
+              />
+            :
+              <TextField
+                disabled
+                id='outlined-disabled'
+                label='Search song' 
+                variant='filled' 
+                size='small'
+                value={lastSearchQuery}
               />
             }
           </Grid>
@@ -112,7 +163,7 @@ const ItemPanel = ({
                     </div>
                     <div style={{flex: '0 0%', position: 'absolute', right: '0px', bottom: '-5px'}}>
                       <CardActions>
-                        <Button onClick={()=>setBookTile(false)}><Icon fontSize="large">cancel</Icon></Button>
+                        {!currentPost && <Button onClick={()=>setBookTile(false)}><Icon fontSize="large">cancel</Icon></Button>}
                       </CardActions>
                     </div>
                   </CardContent>
@@ -128,10 +179,20 @@ const ItemPanel = ({
                 label='Search book' 
                 variant='filled' 
                 size='small'
-                style={{backgroundColor:'whitesmoke'}}
                 value={googleSearchQuery}
                 InputProps={{endAdornment: <Button onClick={()=>setGoogleApiItems([])} variant='outlined' title='Clear search results'><Icon>cancel</Icon></Button>}}
-              /> :
+              /> 
+            : booksNone ? 
+              <TextField 
+                disabled
+                id='outlined-disabled'
+                label='No books found' 
+                variant='filled' 
+                size='small'
+                style={{backgroundColor:'whitesmoke'}}
+                value={googleSearchQuery}
+              /> 
+            : !currentPost ? 
               <TextField 
                 id='filled-basic' 
                 label='Search book' 
@@ -141,7 +202,17 @@ const ItemPanel = ({
                 onChange={(e)=>setGoogleSearchQuery(e.target.value)}
                 value={googleSearchQuery}
                 InputProps={{endAdornment: <Button onClick={() => handleGoogleApiSearch(googleSearchQuery)} variant='outlined' title='Search Google Books API'><Icon>forward_arrow</Icon></Button>}}
-              />}
+              />
+            :
+              <TextField
+                disabled
+                id='outlined-disabled'
+                label='Search book' 
+                variant='filled' 
+                size='small'
+                value={lastSearchQuery}
+              />
+            }
           </Grid>
         </Grid>
       : 

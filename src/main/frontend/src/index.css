@@ -99,11 +99,11 @@ body {
 
 .app-container {
   background-color: #5a615b;
-  min-height: 100vh;
+  min-height: 50vh;
 }
 
 .posts-container {
-
+  padding: 20px;
 }
 
 .add-post {
@@ -118,6 +118,9 @@ form {
   display: grid;
   gap: 2rem;
   background-position: 0% 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 form label {
@@ -134,7 +137,13 @@ form h3 {
 
 #post-title {
   width: 100%;
-  height: 100%;
+  height: 3rem;
+  font-size: 15px;
+  font-family: Helvetica, sans-serif;
+}
+
+#post-title-h3 {
+  width: 100%;
   font-size: 15px;
   font-family: Helvetica, sans-serif;
 }
@@ -145,7 +154,12 @@ form h3 {
   resize: none;
   font-size: 15px;
   font-family: Helvetica, sans-serif;
-  padding: 10px;
+  padding: 15px;
+}
+
+textarea, input {
+  border-radius: 10px;
+  border: 2px solid #8f8f8f;
 }
 
 .posts-item {
@@ -162,7 +176,7 @@ form h3 {
   padding-left: 10px;
   font-family: 'Lora', sans-serif, Helvetica;
   font-size: 18px;
-  max-width: 55ch;
+  max-width: 65ch;
   max-height: 4ch;
   overflow: hidden; 
   text-overflow: ellipsis;
@@ -221,7 +235,23 @@ form h3 {
 .post-arrow-right {
   position: absolute;
   top: 0px;
-  right: -10px;
+  right: 0px;
+  background-color: #a9a9a9e6;
+  border-radius: 10px;
+}
+
+.current-post-title {
+  background-color: #b4b4b4;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.current-post-content {
+  padding: 15px;
+  background-image: linear-gradient(180deg, #818181 10%, #727272 90%);
+  border: 4px solid grey;
+  border-radius: 10px;
+  cursor:initial;
 }
 
 .card {

@@ -6,6 +6,10 @@ import Button from '@mui/material/Button';
 import Icon from '@mui/material/Icon';
 
 const PostsBar = ({ postsList, setCurrentPost, setDisplaySelect }) => {
+  const handleSelectPost = (post) => {
+    setCurrentPost(post);
+    setDisplaySelect('post');
+  }
   return (
     <Box
       display='flex'
@@ -14,15 +18,22 @@ const PostsBar = ({ postsList, setCurrentPost, setDisplaySelect }) => {
     > 
       <Grid container spacing={0}>
         {postsList.length > 0 ? postsList.map((post, index) => {
-          return <Grid key={index} item xs={11}>
-            <div className='posts-item'>
-              {post.title}
-              <div className='post-arrow-right'>
-                <Icon fontSize='large'>arrow_right</Icon>
+          return <Grid key={index} item xs={11} onClick={()=>handleSelectPost(post)}>
+              <div className='posts-item'>
+                {post.title}
+                <div className='post-arrow-right'>
+                  <Icon fontSize='large'>arrow_right</Icon>
+                </div>
               </div>
-            </div>
+            </Grid>
+          })
+        : 
+          <Grid item xs={12}>
+            <Box display='flex' justifyContent='center' style={{paddingTop: '80px'}}>
+              <Button size='small' variant='outlined' disabled>Begin by creating a post above</Button>
+            </Box>
           </Grid>
-        }) : <></>}
+        }
       </Grid>
     </Box>
   )

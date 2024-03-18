@@ -33,6 +33,7 @@ public class Post {
 
     private String googBooksUrl;
 
+    @Column(name="text",columnDefinition="LONGTEXT")
     private String text;
 
     private Date createdAt;

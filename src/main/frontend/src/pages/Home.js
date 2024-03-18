@@ -22,21 +22,23 @@ const Home = () => {
   const [displaySelect, setDisplaySelect] = useState('select');
   const [currentPost, setCurrentPost] = useState(false);
   const [postUpdate, setPostUpdate] = useState(false);
+  const [newPost, setNewPost] = useState(false);
 
-  // useEffect(() => {
-  //   if (loginStatus !== 0) {
-  //     const postsRequest = async () => {
-  //       const posts = await fetch(`/post/${loginStatus}`);
-  //       let postsResults = await posts.json();
-  //       setPostsList(postsResults);
-  //     }
-  //     postsRequest();
-  //   } else {
-  //     setPostsList([]);
-  //   }
-  // }, [loginStatus])
+  useEffect(() => {
+    if (loginStatus !== 0) {
+      const postsRequest = async () => {
+        const posts = await fetch(`/post/${loginStatus}`);
+        let postsResults = await posts.json();
+        setPostsList(postsResults);
+      }
+      postsRequest();
+    } else {
+      setPostsList([]);
+    }
+  }, [loginStatus])
 
   const [lastApiItems, setLastApiItems] = useState([]);
+  const [lastNone, setLastNone] = useState(false);
 
   const lastApiFunc = async (searchQuery) => {
     if (!searchQuery.trim().length) {
@@ -57,12 +59,11 @@ const Home = () => {
         headers : headers 
       });
       let dataResults = await lastApiResults.json();
-      console.log(dataResults);
       if (dataResults.results.trackmatches.track.length > 0) {
         setLastApiItems(dataResults.results.trackmatches.track);
       } else {
         setLastApiItems([]);
-        return
+        setLastNone(true);
       }
     } catch (error) {
       console.log(error);
@@ -70,7 +71,16 @@ const Home = () => {
     }
   }
 
+  const lastNoneEffect = useEffect(() => {
+    if (lastNone) {
+      setTimeout(() => {
+        setLastNone(false);
+      }, 3500);
+    }
+  }, [lastNone])
+
   const [googleApiItems, setGoogleApiItems] = useState([]);
+  const [booksNone, setBooksNone] = useState(false);
 
   const googleApiFunc = async (searchQuery) => {
     if (!searchQuery.trim().length) {
@@ -86,12 +96,11 @@ const Home = () => {
         throw new Error('something went wrong!');
       }
       let dataResults = await googleApiResults.json();
-      console.log(dataResults);
-      if (dataResults.items.length > 0) {
+      if (dataResults.totalItems !== 0) {
         setGoogleApiItems(dataResults.items)
       } else {
         setGoogleApiItems([]);
-        return
+        setBooksNone(true);
       }
     } catch (error) {
       console.log(error)
@@ -99,8 +108,156 @@ const Home = () => {
     }
   }
 
+  const booksNoneEffect = useEffect(() => {
+    if (booksNone) {
+      setTimeout(() => {
+        setBooksNone(false);
+      }, 3500);
+    }
+  }, [booksNone]);
+
   const [songTile, setSongTile] = useState(false);
   const [bookTile, setBookTile] = useState(false);
+
+  const [postTitleVal, setPostTitleVal] = useState('');
+  const [postContentVal, setPostContentVal] = useState('');
+
+  const saveNewPost = async (title, text, songTile, bookTile) => {
+    if (title.trim().length > 0 && text.trim().length > 0) {
+      let userId = loginStatus;
+      let song = '';
+      let lastFmUrl = '';
+      let artist = '';
+      if (songTile) {
+        song = songTile.title;
+        artist = songTile.artist;
+        lastFmUrl = songTile.link;
+      }
+      let book = '';
+      let author = '';
+      let googBooksUrl = '';
+      if (bookTile) {
+        book = bookTile.title;
+        author = bookTile.author;
+        googBooksUrl = bookTile.link;
+      }
+      const response = await fetch(`/post`, {
+        method: 'POST',
+        body: JSON.stringify({
+          title,
+          song,
+          lastFmUrl,
+          artist,
+          book,
+          author,
+          googBooksUrl,
+          text,
+          userId
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const idResponse = await response.json();
+      const idLog = await idResponse;
+      if (response.ok) {
+        setPostsList([...postsList, { id: idLog.id, title: title, song: song, lastFmUrl: lastFmUrl, artist: artist, book: book, author: author, googBooksUrl: googBooksUrl, text:text, userId: userId, createdAt: idLog.createdAt }]);
+        setNewPost(false);
+        setPostUpdate(false);
+        setCurrentPost(false);
+        setSongTile(false);
+        setBookTile(false);
+        setDisplaySelect('select');
+      } else {
+        alert(response.statusText);
+      }
+    } else {
+      alert("You must enter a title and content");
+      return;
+    }
+  }
+
+  const saveUpdatedPost = async (title, text, songTile, bookTile, id) => {
+    if (title.trim().length > 0 && text.trim().length > 0) {
+      let userId = loginStatus;
+      let song = '';
+      let lastFmUrl = '';
+      let artist = '';
+      if (songTile) {
+        song = songTile.title;
+        artist = songTile.artist;
+        lastFmUrl = songTile.link;
+      }
+      let book = '';
+      let author = '';
+      let googBooksUrl = '';
+      if (bookTile) {
+        book = bookTile.title;
+        author = bookTile.author;
+        googBooksUrl = bookTile.link;
+      }
+      const response = await fetch(`/post/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          title,
+          song,
+          lastFmUrl,
+          artist,
+          book,
+          author,
+          googBooksUrl,
+          text,
+          userId
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (response.ok) {
+        setPostsList([...postsList.map((post) => {
+          if (post.id === postUpdate.id) {
+            return { id: post.id, title: title, song: song, lastFmUrl: lastFmUrl, artist: artist, book: book, author: author, googBooksUrl: googBooksUrl, text:text, userId: userId, createdAt: post.createdAt }
+          } else {
+            return post 
+          }
+        })]);
+        setNewPost(false);
+        setPostUpdate(false)
+        setCurrentPost(false);
+        setSongTile(false);
+        setBookTile(false);
+        setDisplaySelect('select');
+      } else {
+        alert(response.statusText);
+      }
+    } else {
+      alert("You must enter a title and content");
+      return;
+    }
+  }
+
+  const deletePost = async (id) => {
+    const response = await fetch(`/post/${id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if (response.ok) {
+      setPostsList(postsList.filter((post) => { return post.id !== id }));
+      setPostUpdate(false);
+      setCurrentPost(false);
+      setNewPost(false);
+      setDisplaySelect('select');
+    } else {
+      alert(response.statusText);
+    }
+  }
+
+  useEffect(() => {
+    if (displaySelect === 'select') {
+      setNewPost(false);
+    }
+  }, [displaySelect]);
 
   return (
     <Container maxWidth='md'>
@@ -137,7 +294,15 @@ const Home = () => {
               setBookTile={setBookTile}
               postUpdate={postUpdate}
               setPostUpdate={setPostUpdate}
+              newPost={newPost}
+              setNewPost={setNewPost}
               setDisplaySelect={setDisplaySelect}
+              lastNone={lastNone}
+              booksNone={booksNone}
+              postTitleVal={postTitleVal}
+              postContentVal={postContentVal}
+              setPostTitleVal={setPostTitleVal}
+              setPostContentVal={setPostContentVal}
             />
           </Box> : <></>
         }
@@ -148,7 +313,7 @@ const Home = () => {
           className='app-container'
           flexDirection='column'
         > 
-          {(lastApiItems.length > 0 || googleApiItems.length > 0) && 
+          {(lastApiItems.length > 0 || googleApiItems.length > 0) ? 
             <ItemResults
               lastApiItems={lastApiItems} 
               googleApiItems={googleApiItems}
@@ -156,24 +321,38 @@ const Home = () => {
               setBookTile={setBookTile}
               setLastApiItems={setLastApiItems}
               setGoogleApiItems={setGoogleApiItems}
+              setNewPost={setNewPost}
+              newPost={newPost}
             />
-          }
-          {displaySelect === 'select' ?
+          : displaySelect === 'select' ?
             <PostsBar 
               postsList={postsList} 
               setCurrentPost={setCurrentPost}
               setDisplaySelect={setDisplaySelect}
             /> 
-            : displaySelect === 'post' ? 
+          : displaySelect === 'post' ? 
             <Post 
               currentPost={currentPost}
-              setCurrentPost={setCurrentPost} 
+              setCurrentPost={setCurrentPost}
+              newPost={newPost}
+              setNewPost={setNewPost}
               postUpdate={postUpdate} 
               setPostUpdate={setPostUpdate}
               setDisplaySelect={setDisplaySelect}
+              saveNewPost={saveNewPost}
+              songTile={songTile}
+              setSongTile={setSongTile}
+              bookTile={bookTile}
+              setBookTile={setBookTile}
+              postTitleVal={postTitleVal}
+              postContentVal={postContentVal}
+              setPostTitleVal={setPostTitleVal}
+              setPostContentVal={setPostContentVal}
+              saveUpdatedPost={saveUpdatedPost}
+              deletePost={deletePost}
             /> 
             : 
-            <></>
+              <></>
           }
         </Box>
       :

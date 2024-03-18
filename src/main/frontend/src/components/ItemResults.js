@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import SongItem from './SongItem.js';
 import BookItem from './BookItem.js';
 
-const ItemResults = ({ lastApiItems, googleApiItems, setSongTile, setBookTile, setLastApiItems, setGoogleApiItems }) => {
+const ItemResults = ({ lastApiItems, googleApiItems, setSongTile, setBookTile, setLastApiItems, setGoogleApiItems, setNewPost, newPost }) => {
   return (
     <div style={{display: 'inline-flex', flexDirection: 'column'}}>
       {lastApiItems.length > 0 ? 
