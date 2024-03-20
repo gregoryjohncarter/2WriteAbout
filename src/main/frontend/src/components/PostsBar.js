@@ -1,15 +1,45 @@
 import React, { useState, useEffect } from 'react';
 
+import PostsBarItem from './PostsBarItem.js';
+
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Icon from '@mui/material/Icon';
 
-const PostsBar = ({ postsList, setCurrentPost, setDisplaySelect }) => {
+const PostsBar = ({ 
+  postsList, 
+  setCurrentPost, 
+  setDisplaySelect, 
+  selectPlay, 
+  setSelectPlay, 
+  stringAnim, 
+  setStringAnim,
+  setFadeClose,
+  setButtonCooldown
+}) => {
+  
   const handleSelectPost = (post) => {
-    setCurrentPost(post);
-    setDisplaySelect('post');
+    setSelectPlay(post.title);
+    setButtonCooldown(true);
+    setTimeout(() => {
+      setTimeout(() => {
+        setCurrentPost(post);
+        setDisplaySelect('post');
+        setSelectPlay(false);
+        setStringAnim(false);
+        setButtonCooldown(false);
+      }, 1500);
+      setFadeClose(true);
+    }, 2000);
   }
+
+  useEffect(() => {
+    if (selectPlay) {
+      let stringTitle = selectPlay.split(' ');
+      setStringAnim(stringTitle);
+    }
+  }, [selectPlay]);
+
   return (
     <Box
       display='flex'
@@ -18,18 +48,19 @@ const PostsBar = ({ postsList, setCurrentPost, setDisplaySelect }) => {
     > 
       <Grid container spacing={0}>
         {postsList.length > 0 ? postsList.map((post, index) => {
-          return <Grid key={index} item xs={11} onClick={()=>handleSelectPost(post)}>
-              <div className='posts-item'>
-                {post.title}
-                <div className='post-arrow-right'>
-                  <Icon fontSize='large'>arrow_right</Icon>
-                </div>
-              </div>
-            </Grid>
-          })
-        : 
+          return <Grid item className={!stringAnim ? 'animate-content-start posts-bar-item' : 'posts-bar-item'} xs={11} key={index+'box'} onClick={!selectPlay ? ()=>handleSelectPost(post) : ()=>console.log('')}>
+            <PostsBarItem 
+              key={index+'k'} 
+              indexKey={index}
+              selectPlay={selectPlay} 
+              stringAnim={stringAnim}
+              post={post}
+            />
+          </Grid> 
+        })
+          : 
           <Grid item xs={12}>
-            <Box display='flex' justifyContent='center' style={{paddingTop: '80px'}}>
+            <Box className='animate-content-start' display='flex' justifyContent='center' style={{paddingTop: '80px'}}>
               <Button size='small' variant='outlined' disabled>Begin by creating a post above</Button>
             </Box>
           </Grid>

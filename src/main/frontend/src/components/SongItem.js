@@ -7,28 +7,37 @@ import Button from '@mui/material/Button';
 import Icon from '@mui/material/Icon';
 
 const SongItem = ({ keyIndex, artist, title, link, setSongTile, setLastApiItems }) => {
+  const [showItem, setShowItem] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setShowItem(true);
+    }, 100 * keyIndex);
+  }, []);
   const handleSetSongTile = () => {
     setSongTile({title:title, artist:artist, link:link});
     setLastApiItems([]);
   }
   
   return (
-    <Card className={keyIndex % 2 === 0 ? 'alternate' : 'card'} sx={{ minWidth: 275 }}>
-      <CardContent className='title-font'>
-        {title}
-      </CardContent>
-      <hr/>
-      <CardContent className='artist-font' style={{display: 'inline-flex', justifyContent: 'space-between', width: '100%', position: 'relative'}}>
-        <div style={{flex: '0 100%'}}>
-          {artist}
-        </div>
-        <div style={{flex: '0 0%', position: 'absolute', right: '13px', bottom: '-10px'}}>
-          <CardActions>
-            <Button onClick={()=>handleSetSongTile()}><Icon fontSize="large">add_circle_outline</Icon></Button>
-          </CardActions>
-        </div>
-      </CardContent>
-    </Card>
+    showItem ? 
+      <Card className={keyIndex % 2 === 0 ? 'alternate anim-show-item' : 'card anim-show-item'} sx={{ minWidth: 275 }}>
+        <CardContent className='title-font'>
+          {title}
+        </CardContent>
+        <hr/>
+        <CardContent className='artist-font' style={{display: 'inline-flex', justifyContent: 'space-between', width: '100%', position: 'relative'}}>
+          <div style={{flex: '0 100%'}}>
+            {artist}
+          </div>
+          <div style={{flex: '0 0%', position: 'absolute', right: '13px', bottom: '-10px'}}>
+            <CardActions>
+              <Button onClick={()=>handleSetSongTile()}><Icon fontSize="large">add_circle_outline</Icon></Button>
+            </CardActions>
+          </div>
+        </CardContent>
+      </Card> 
+    : 
+      <></>
   )
 }
 

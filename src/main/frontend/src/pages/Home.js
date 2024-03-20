@@ -256,8 +256,23 @@ const Home = () => {
   useEffect(() => {
     if (displaySelect === 'select') {
       setNewPost(false);
+      setPostUpdate(false);
+      setCurrentPost(false);
     }
   }, [displaySelect]);
+
+  const [selectPlay, setSelectPlay] = useState(false);
+  const [stringAnim, setStringAnim] = useState(false);
+  const [fadeClose, setFadeClose] = useState(false);
+  const [buttonCooldown, setButtonCooldown] = useState(false);
+
+  useEffect(() => {
+    if (fadeClose) {
+      setTimeout(() => {
+        setFadeClose(false);
+      }, 3000);
+    }
+  }, [fadeClose])
 
   return (
     <Container maxWidth='md'>
@@ -303,58 +318,66 @@ const Home = () => {
               postContentVal={postContentVal}
               setPostTitleVal={setPostTitleVal}
               setPostContentVal={setPostContentVal}
+              buttonCooldown={buttonCooldown}
             />
           </Box> : <></>
         }
       </div>
       {loginStatus ? 
-        <Box
-          display='flex'
-          className='app-container'
-          flexDirection='column'
-        > 
-          {(lastApiItems.length > 0 || googleApiItems.length > 0) ? 
-            <ItemResults
-              lastApiItems={lastApiItems} 
-              googleApiItems={googleApiItems}
-              setSongTile={setSongTile}
-              setBookTile={setBookTile}
-              setLastApiItems={setLastApiItems}
-              setGoogleApiItems={setGoogleApiItems}
-              setNewPost={setNewPost}
-              newPost={newPost}
-            />
-          : displaySelect === 'select' ?
-            <PostsBar 
-              postsList={postsList} 
-              setCurrentPost={setCurrentPost}
-              setDisplaySelect={setDisplaySelect}
-            /> 
-          : displaySelect === 'post' ? 
-            <Post 
-              currentPost={currentPost}
-              setCurrentPost={setCurrentPost}
-              newPost={newPost}
-              setNewPost={setNewPost}
-              postUpdate={postUpdate} 
-              setPostUpdate={setPostUpdate}
-              setDisplaySelect={setDisplaySelect}
-              saveNewPost={saveNewPost}
-              songTile={songTile}
-              setSongTile={setSongTile}
-              bookTile={bookTile}
-              setBookTile={setBookTile}
-              postTitleVal={postTitleVal}
-              postContentVal={postContentVal}
-              setPostTitleVal={setPostTitleVal}
-              setPostContentVal={setPostContentVal}
-              saveUpdatedPost={saveUpdatedPost}
-              deletePost={deletePost}
-            /> 
+        <div className={fadeClose ? 'app-container animate-content-end' : 'app-container'}> 
+          <Box
+            display='flex'
+            flexDirection='column'
+          > 
+            {(lastApiItems.length > 0 || googleApiItems.length > 0) ? 
+              <ItemResults
+                lastApiItems={lastApiItems} 
+                googleApiItems={googleApiItems}
+                setSongTile={setSongTile}
+                setBookTile={setBookTile}
+                setLastApiItems={setLastApiItems}
+                setGoogleApiItems={setGoogleApiItems}
+                setNewPost={setNewPost}
+                newPost={newPost}
+              />
+            : displaySelect === 'select' ?
+              <PostsBar 
+                postsList={postsList} 
+                setCurrentPost={setCurrentPost}
+                setDisplaySelect={setDisplaySelect}
+                selectPlay={selectPlay}
+                setSelectPlay={setSelectPlay}
+                stringAnim={stringAnim}
+                setStringAnim={setStringAnim}
+                setFadeClose={setFadeClose}
+                setButtonCooldown={setButtonCooldown}
+              /> 
+            : displaySelect === 'post' ? 
+              <Post 
+                currentPost={currentPost}
+                setCurrentPost={setCurrentPost}
+                newPost={newPost}
+                setNewPost={setNewPost}
+                postUpdate={postUpdate} 
+                setPostUpdate={setPostUpdate}
+                setDisplaySelect={setDisplaySelect}
+                saveNewPost={saveNewPost}
+                songTile={songTile}
+                setSongTile={setSongTile}
+                bookTile={bookTile}
+                setBookTile={setBookTile}
+                postTitleVal={postTitleVal}
+                postContentVal={postContentVal}
+                setPostTitleVal={setPostTitleVal}
+                setPostContentVal={setPostContentVal}
+                saveUpdatedPost={saveUpdatedPost}
+                deletePost={deletePost}
+              /> 
             : 
               <></>
-          }
-        </Box>
+            }
+          </Box>
+        </div>
       :
         <Box
           display='flex'

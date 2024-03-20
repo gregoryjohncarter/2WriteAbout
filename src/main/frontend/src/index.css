@@ -99,11 +99,7 @@ body {
 
 .app-container {
   background-color: #5a615b;
-  min-height: 50vh;
-}
-
-.posts-container {
-  padding: 20px;
+  min-height: 75vh;
 }
 
 .add-post {
@@ -185,6 +181,12 @@ textarea, input {
   background-image: linear-gradient(180deg, #a0a0a0 0%, #787a85 99%);
   background-position: 0% 50%;
   cursor: pointer;
+  transition: 2s opacity ease-out;
+  opacity: 1;
+}
+
+.posts-item-fade {
+  opacity: 0;
 }
 
 @keyframes gradient {
@@ -214,6 +216,48 @@ textarea, input {
   }
 }
 
+@keyframes animate-start {
+  0% {
+    transform: scale(0.2, 0.002);
+    opacity: 0;
+  }
+  75% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+}
+
+@keyframes animate-end {
+  0% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+.posts-container {
+  padding: 10px;
+  transform: scale(1, 1);
+}
+
+.posts-bar-item {
+}
+
+.animate-content-start {
+  animation: animate-start 3s ease;
+}
+
+.animate-content-end {
+  animation: animate-end 3s ease;
+}
+
 .post-title {
   background-size: 125% 100%;
   background-position: 0% 50%;
@@ -222,7 +266,7 @@ textarea, input {
 
 .posts-item:hover {
   background-size: 150% 150%;
-	animation: gradient 4s ease;
+	animation: gradient infinite ease;
 }
 
 .post-title-focus {
@@ -323,6 +367,48 @@ textarea, input {
 
 .menu-book {
   border-bottom: 3px solid #183492;
+}
+
+@keyframes showItem {
+  0% {
+    transform: translate(0px, 0);
+    opacity: .25;
+    mix-blend-mode: lighten;
+  }
+  50% {
+    transform: translate(15px, 0);
+    opacity: .75;
+  }
+  100% {
+    transform: translate(-0px, 0);
+    opacity: 1;
+  } 
+}
+
+.anim-show-item {
+  animation: showItem .45s linear;
+}
+
+.select-play {
+  animation: selectPlay 3s ease-out;
+}
+
+@keyframes selectPlay {
+  0% {
+    opacity: 1;
+    margin-left: 0px;
+    transform: translateX(calc(-0px * var(--i)));
+  }
+  50% {
+    opacity: .5;
+    margin-left: calc(4px * var(--i));
+    transform: translateX(calc(-6px * var(--i)));
+  }
+  100% {
+    opacity: 0;
+    margin-left: calc(8px * var(--i));
+    transform: translateX(calc(-12px * var(--i)));
+  }
 }
 
 @media screen and (max-width: 980px) {

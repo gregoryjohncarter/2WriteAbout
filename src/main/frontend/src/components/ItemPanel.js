@@ -30,7 +30,8 @@ const ItemPanel = ({
   postTitleVal,
   postContentVal,
   setPostTitleVal,
-  setPostContentVal
+  setPostContentVal,
+  buttonCooldown,
 }) => {
   const [lastSearchQuery, setLastSearchQuery] = useState('');
   const [googleSearchQuery, setGoogleSearchQuery] = useState('');
@@ -218,14 +219,27 @@ const ItemPanel = ({
       : 
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Button onClick={()=>handleCreatePost()} variant='outlined' style={{paddingBottom: '0px'}}>
+            <Button onClick={!buttonCooldown ? ()=>handleCreatePost() : ()=>console.log('')} variant='outlined' style={{paddingBottom: '0px'}}>
               <div className='add-post'>
-                <div>
-                  <Icon style={{borderBottom: '2px solid #4b6fbb'}}>add_box</Icon>
-                </div>
-                <div style={{marginLeft: '10px'}}>
-                  Create new post
-                </div>
+                {!buttonCooldown ?
+                  <>
+                    <div>
+                      <Icon style={{borderBottom: '2px solid #4b6fbb'}}>add_box</Icon>
+                    </div>
+                    <div style={{marginLeft: '10px'}}>
+                      Create new post
+                    </div>
+                  </>
+                : 
+                  <>
+                    <div>
+                      <Icon style={{borderBottom: '2px solid #4b6fbb'}}>arrow_right</Icon>
+                    </div>
+                    <div style={{marginLeft: '10px'}}>
+                      Loading...
+                    </div>
+                  </>
+                }
               </div>
             </Button>
           </Grid>
