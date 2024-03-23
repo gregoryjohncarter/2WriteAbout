@@ -21,7 +21,10 @@ const Post = ({
   setPostTitleVal, 
   setPostContentVal,
   saveUpdatedPost,
-  deletePost
+  deletePost,
+  setBackTransition2,
+  backTransition,
+  setBackTransition
 }) => {
   const [gradient, setGradient] = useState(false);
 
@@ -33,15 +36,23 @@ const Post = ({
     } else {
       return
     }
-  }, [gradient])
+  }, [gradient]);
 
   const handleReturnPosts = () => {
-    setPostUpdate(false);
-    setNewPost(false);
-    setDisplaySelect('select');
-    setSongTile(false);
-    setBookTile(false);
-    setCurrentPost(false);
+    setBackTransition(true)
+    setTimeout(() => {
+      setBackTransition2(true);
+      setTimeout(() => {
+        setBackTransition(false);
+        setBackTransition2(false)
+        setPostUpdate(false);
+        setNewPost(false);
+        setDisplaySelect('select');
+        setSongTile(false);
+        setBookTile(false);
+        setCurrentPost(false);
+      }, 1000);
+    }, 750);
   }
 
   const handleEditPost = (currentPost) => {
@@ -85,7 +96,7 @@ const Post = ({
   return (
     <>
       {(newPost || postUpdate) ?
-        <section>
+        <section className={backTransition? 'filler' : 'filler-full'}>
           <Button variant='contained' onClick={()=>handleReturnPosts()}>
             <Icon>arrow_backward</Icon>Go back
           </Button>
@@ -93,11 +104,11 @@ const Post = ({
             <h3 style={{marginTop: '-5px', marginBottom: '-15px'}}>
               Title
             </h3>
-            <input value={postTitleVal} onChange={(e)=> setPostTitleVal(e.target.value)} onFocus={()=>setGradient(true)} type='text' id='post-title' name='post-title' maxLength='255'/>
+            <input value={postTitleVal} onChange={(e)=>setPostTitleVal(e.target.value)} onFocus={()=>setGradient(true)} type='text' id='post-title' name='post-title' maxLength='255'/>
             <h3 style={{marginTop: '-15px', marginBottom: '-15px'}}>
               Content
             </h3>
-            <textarea value={postContentVal} onChange={(e)=> setPostContentVal(e.target.value)} onFocus={()=>setGradient(true)} id='post-content'/>
+            <textarea value={postContentVal} onChange={(e)=>setPostContentVal(e.target.value)} onFocus={()=>setGradient(true)} id='post-content'/>
             {newPost ? 
               <Button onClick={()=>saveNewPost(postTitleVal, postContentVal, songTile, bookTile)} variant='contained' color='inherit'>
                 <Icon style={{marginRight: '10px'}}>mode_comment</Icon>Save post
@@ -115,7 +126,7 @@ const Post = ({
           </form>
         </section>
       : 
-        <section>
+        <section className={backTransition? 'filler' : 'filler-full'}>
           <Button variant='contained' onClick={()=>handleReturnPosts()}>
             <Icon>arrow_backward</Icon>Go back
           </Button>
@@ -124,6 +135,9 @@ const Post = ({
               {currentPost.title}
             </h3>
             <textarea value={currentPost.text} readOnly id='post-content' className='current-post-content'/>
+            <div style={{alignSelf: 'end', marginTop: '-20px', color: '#4e4f51'}}>
+              <span style={{fontStyle:'italic'}}>Date created:</span> {currentPost.createdAt.split('T')[0]}
+            </div>
             <Button onClick={()=>handleEditPost(currentPost)} variant='contained' color='inherit'>
               <Icon style={{marginRight: '10px'}}>mode_comment</Icon>Edit post
             </Button>

@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException; 
 
 @Entity
 @Table(name = "POSTS")
@@ -129,6 +131,12 @@ public class Post {
     }
 
     public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            Date date = sdf.parse(sdf.format(createdAt));
+            this.createdAt = date;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

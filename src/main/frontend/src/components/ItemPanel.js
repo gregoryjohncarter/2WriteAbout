@@ -32,6 +32,8 @@ const ItemPanel = ({
   setPostTitleVal,
   setPostContentVal,
   buttonCooldown,
+  backTransition,
+  backTransition2
 }) => {
   const [lastSearchQuery, setLastSearchQuery] = useState('');
   const [googleSearchQuery, setGoogleSearchQuery] = useState('');
@@ -83,9 +85,9 @@ const ItemPanel = ({
   }, [currentPost]);
 
   return (
-    <>
+    <Grid container spacing={2} className={(backTransition2 && (currentPost || postUpdate || newPost)) ? 'filler2' : 'filler2-full'}>
       {(currentPost || postUpdate || newPost) ? 
-        <Grid container spacing={2}>
+        <>
           <Grid item xs={9} sm={6}>
             {songTile ? 
               <div style={{display:'flex'}}>
@@ -100,7 +102,7 @@ const ItemPanel = ({
                     </div>
                     <div style={{flex: '0 0%', position: 'absolute', right: '0px', bottom: '-5px'}}>
                       <CardActions>
-                        {!currentPost && <Button onClick={()=>setSongTile(false)}><Icon fontSize="large">cancel</Icon></Button>}
+                        {!currentPost && <Button disabled={backTransition} onClick={()=>setSongTile(false)}><Icon fontSize="large">cancel</Icon></Button>}
                       </CardActions>
                     </div>
                   </CardContent>
@@ -138,14 +140,15 @@ const ItemPanel = ({
                 onChange={(e)=>setLastSearchQuery(e.target.value)}
                 value={lastSearchQuery}
                 InputProps={{endAdornment: <Button onClick={()=>handleLastApiSearch(lastSearchQuery)} variant='outlined' title='Search Last.fm API'><Icon>forward_arrow</Icon></Button>}}
+                disabled={backTransition}
               />
             :
               <TextField
                 disabled
                 id='outlined-disabled'
-                label='Search song' 
+                label='No song added' 
                 variant='filled' 
-                size='small'
+                size='medium'
                 value={lastSearchQuery}
               />
             }
@@ -164,7 +167,7 @@ const ItemPanel = ({
                     </div>
                     <div style={{flex: '0 0%', position: 'absolute', right: '0px', bottom: '-5px'}}>
                       <CardActions>
-                        {!currentPost && <Button onClick={()=>setBookTile(false)}><Icon fontSize="large">cancel</Icon></Button>}
+                        {!currentPost && <Button disabled={backTransition} onClick={()=>setBookTile(false)}><Icon fontSize="large">cancel</Icon></Button>}
                       </CardActions>
                     </div>
                   </CardContent>
@@ -203,49 +206,48 @@ const ItemPanel = ({
                 onChange={(e)=>setGoogleSearchQuery(e.target.value)}
                 value={googleSearchQuery}
                 InputProps={{endAdornment: <Button onClick={() => handleGoogleApiSearch(googleSearchQuery)} variant='outlined' title='Search Google Books API'><Icon>forward_arrow</Icon></Button>}}
+                disabled={backTransition}
               />
             :
               <TextField
                 disabled
                 id='outlined-disabled'
-                label='Search book' 
+                label='No book added' 
                 variant='filled' 
-                size='small'
+                size='medium'
                 value={lastSearchQuery}
               />
             }
           </Grid>
-        </Grid>
+        </>
       : 
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Button onClick={!buttonCooldown ? ()=>handleCreatePost() : ()=>console.log('')} variant='outlined' style={{paddingBottom: '0px'}}>
-              <div className='add-post'>
-                {!buttonCooldown ?
-                  <>
-                    <div>
-                      <Icon style={{borderBottom: '2px solid #4b6fbb'}}>add_box</Icon>
-                    </div>
-                    <div style={{marginLeft: '10px'}}>
-                      Create new post
-                    </div>
-                  </>
-                : 
-                  <>
-                    <div>
-                      <Icon style={{borderBottom: '2px solid #4b6fbb'}}>arrow_right</Icon>
-                    </div>
-                    <div style={{marginLeft: '10px'}}>
-                      Loading...
-                    </div>
-                  </>
-                }
-              </div>
-            </Button>
-          </Grid>
+        <Grid item xs={12}>
+          <Button onClick={!buttonCooldown ? ()=>handleCreatePost() : ()=>console.log('')} variant='outlined' style={{paddingBottom: '0px'}}>
+            <div className='add-post'>
+              {!buttonCooldown ?
+                <>
+                  <div>
+                    <Icon style={{borderBottom: '2px solid #4b6fbb'}}>add_box</Icon>
+                  </div>
+                  <div style={{marginLeft: '10px'}}>
+                    Create new post
+                  </div>
+                </>
+              : 
+                <>
+                  <div>
+                    <Icon style={{borderBottom: '2px solid #4b6fbb'}}>arrow_right</Icon>
+                  </div>
+                  <div style={{marginLeft: '10px'}}>
+                    {buttonCooldown === 'Loading.' ? <>{buttonCooldown}<span>&nbsp;</span><span>&nbsp;</span></> : buttonCooldown === 'Loading..' ? <>{buttonCooldown}<span>&nbsp;</span></> : buttonCooldown === 'Loading...' ? buttonCooldown : 'Loading...'}
+                  </div>
+                </>
+              }
+            </div>
+          </Button>
         </Grid>
       }
-    </>
+    </Grid>
   )
 }
 

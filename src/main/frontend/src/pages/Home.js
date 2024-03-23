@@ -15,6 +15,8 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 
+import { createTheme } from '@mui/material/styles';
+
 const Home = () => {
   const [loginStatus, setLoginStatus] = useState(0);
   const [postsList, setPostsList] = useState([]);
@@ -272,10 +274,22 @@ const Home = () => {
         setFadeClose(false);
       }, 3000);
     }
-  }, [fadeClose])
+  }, [fadeClose]);
+
+  const [backTransition, setBackTransition] = useState(false);
+  const [backTransition2, setBackTransition2] = useState(false);
+
+  const theme = createTheme({
+    palette: {
+      active: { 
+        main: '#5b7777',
+        contrastText: '#fff',
+      }
+    },
+  });
 
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth='md' style={{overflowX: 'hidden'}}>
       <div className='flex-mobi'>
         <Box
           display='inline-flex'
@@ -285,7 +299,7 @@ const Home = () => {
         >
           <h2 className='text-inlay cantata-one-regular' style={{cursor: 'default', marginTop: '20px'}}>2WriteAbout</h2>
           <div>
-            <Button style={{margin: '20px'}} variant='outlined' title={loginStatus ? 'Log out' : 'Log in'} color={loginStatus ? 'success' : 'primary'} onClick={() => setOpenLogin(true)}>
+            <Button style={{margin: '20px'}} theme={theme} variant='outlined' title={loginStatus ? 'Log out' : 'Log in'} color={loginStatus ? 'active' : 'primary'} onClick={() => setOpenLogin(true)}>
               <Icon>account_circle</Icon>
             </Button>
           </div>
@@ -319,6 +333,8 @@ const Home = () => {
               setPostTitleVal={setPostTitleVal}
               setPostContentVal={setPostContentVal}
               buttonCooldown={buttonCooldown}
+              backTransition={backTransition}
+              backTransition2={backTransition2}
             />
           </Box> : <></>
         }
@@ -328,6 +344,7 @@ const Home = () => {
           <Box
             display='flex'
             flexDirection='column'
+            maxWidth='md'
           > 
             {(lastApiItems.length > 0 || googleApiItems.length > 0) ? 
               <ItemResults
@@ -351,6 +368,7 @@ const Home = () => {
                 setStringAnim={setStringAnim}
                 setFadeClose={setFadeClose}
                 setButtonCooldown={setButtonCooldown}
+                buttonCooldown={buttonCooldown}
               /> 
             : displaySelect === 'post' ? 
               <Post 
@@ -372,6 +390,9 @@ const Home = () => {
                 setPostContentVal={setPostContentVal}
                 saveUpdatedPost={saveUpdatedPost}
                 deletePost={deletePost}
+                setBackTransition2={setBackTransition2}
+                backTransition={backTransition}
+                setBackTransition={setBackTransition}
               /> 
             : 
               <></>

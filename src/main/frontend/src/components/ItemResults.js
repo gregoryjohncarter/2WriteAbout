@@ -8,10 +8,12 @@ const ItemResults = ({ lastApiItems, googleApiItems, setSongTile, setBookTile, s
     <div style={{display: 'inline-flex', flexDirection: 'column'}}>
       {lastApiItems.length > 0 ? 
         <>
-          <h2 className='last-font'>Showing results from Last.fm API</h2>
-          <p className='choose-plus'>
-            Choose <span style={{color:'blue', fontWeight: 'bold', fontSize: '17px'}}>+</span> to select a song, or choose <span style={{color:'blue', fontWeight: 'bold'}}>X</span> to return
-          </p>
+          <div className='song-results'>
+            <h2 className='last-font'>Showing results from Last.fm API</h2>
+            <p className='choose-plus'>
+              Choose <span style={{color:'blue', fontWeight: 'bold', fontSize: '17px'}}>+</span> to select a song, or choose <span style={{color:'blue', fontWeight: 'bold'}}>X</span> to return
+            </p>
+          </div>
           {lastApiItems.map((song, index) => {
             return (
               <SongItem
@@ -28,10 +30,12 @@ const ItemResults = ({ lastApiItems, googleApiItems, setSongTile, setBookTile, s
         </>
       : googleApiItems.length > 0 ? 
         <>
-          <h2 className='last-font'>Showing results from Google Books API</h2>
-          <p className='choose-plus'>
-            Choose <span style={{color:'blue', fontWeight: 'bold', fontSize: '17px'}}>+</span> to select a book, or choose <span style={{color:'blue', fontWeight: 'bold'}}>X</span> to return
-          </p>
+          <div className='song-results'>
+            <h2 className='last-font'>Showing results from Google Books API</h2>
+            <p className='choose-plus'>
+              Choose <span style={{color:'blue', fontWeight: 'bold', fontSize: '17px'}}>+</span> to select a book, or choose <span style={{color:'blue', fontWeight: 'bold'}}>X</span> to return
+            </p>
+          </div>
           {googleApiItems.map((book, index) => {
             return (
               <BookItem

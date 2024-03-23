@@ -4,7 +4,7 @@ body {
 
 .banner-bg {
   --s: 150px; /* control the size */
-  --c1: #1d1d1d;
+  --c1: #363636;
   --c2: #4e4f51;
   --c3: #3c3c3c;
   background:
@@ -98,8 +98,17 @@ body {
 }
 
 .app-container {
-  background-color: #5a615b;
-  min-height: 75vh;
+  --s: 46px; /* control the size */
+  --g: 0px; /* control the gap */
+  --c: #4e4f51; /* first color */
+  --_l: #0000 calc(33% - .866*var(--g)),var(--c) calc(33.2% - .866*var(--g)) 33%,#0000 34%;
+  background:
+    repeating-linear-gradient(var(--c) 0 var(--g), #0000 0 50%)
+      0 calc(.866*var(--s) - var(--g)/2),
+    conic-gradient(from -150deg at var(--g) 50%,var(--c) 120deg,#0000 0),
+    linear-gradient(-120deg,var(--_l)),linear-gradient( -60deg,var(--_l))
+    #3c3c3c; /* second color */
+  background-size: var(--s) calc(3.466*var(--s));
 }
 
 .add-post {
@@ -160,19 +169,16 @@ textarea, input {
 
 .posts-item {
   position: relative;
-  display: flex;
-  flex-direction: row;
   border: 4px solid #8d8d8d;
   border-radius: 5px;
   background-color: #979797;
-  padding-top: 12px;
   box-shadow: -1px 6px 8px #535353;
   margin-top: -3px;
+  padding-top: 4px;
   padding-bottom: 12px;
   padding-left: 10px;
   font-family: 'Lora', sans-serif, Helvetica;
-  font-size: 18px;
-  max-width: 65ch;
+  font-size: 17px;
   max-height: 4ch;
   overflow: hidden; 
   text-overflow: ellipsis;
@@ -258,6 +264,26 @@ textarea, input {
   animation: animate-end 3s ease;
 }
 
+.filler {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 1s cubic-bezier(0, 1, 0, 1);
+}
+
+.filler-full {
+  max-height: 1000px;
+}
+
+.filler2 {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 1s cubic-bezier(0, 1, 0, 1);
+}
+
+.filler2-full {
+  max-height: 400px;
+}
+
 .post-title {
   background-size: 125% 100%;
   background-position: 0% 50%;
@@ -301,6 +327,13 @@ textarea, input {
 .card {
   background-color: whitesmoke !important;
   margin: 5px;
+}
+
+.song-results {
+  background-color: grey;
+  padding: 0px;
+  display: flex;
+  opacity: .6;
 }
 
 .alternate {
@@ -426,8 +459,7 @@ textarea, input {
     border-top: 0px;
   }
   .posts-item {
-    max-width: 37ch;
-    max-height: 4ch;
+    max-height: 5ch;
   }
 }
 

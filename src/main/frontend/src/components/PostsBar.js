@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import PostsBarItem from './PostsBarItem.js';
 
@@ -15,12 +15,13 @@ const PostsBar = ({
   stringAnim, 
   setStringAnim,
   setFadeClose,
-  setButtonCooldown
+  setButtonCooldown,
+  buttonCooldown
 }) => {
   
   const handleSelectPost = (post) => {
     setSelectPlay(post.title);
-    setButtonCooldown(true);
+    setButtonCooldown('toggle');
     setTimeout(() => {
       setTimeout(() => {
         setCurrentPost(post);
@@ -32,6 +33,32 @@ const PostsBar = ({
       setFadeClose(true);
     }, 2000);
   }
+
+  useEffect(() => {
+    if (buttonCooldown === 'toggle') {
+      setTimeout(() => {
+        setButtonCooldown('Loading.');
+        setTimeout(() => {
+          setButtonCooldown('Loading..');
+          setTimeout(() => {
+            setButtonCooldown('Loading...');
+            setTimeout(() => {
+              setButtonCooldown('Loading.');
+              setTimeout(() => {
+                setButtonCooldown('Loading..');
+                setTimeout(() => {
+                  setButtonCooldown('Loading...');
+                  setTimeout(() => {
+                    setButtonCooldown('Loading.');
+                  }, 250);
+                }, 500);
+              }, 500);
+            }, 500);
+          }, 500);
+        }, 500);
+      }, 500);
+    }
+  }, [buttonCooldown]);
 
   useEffect(() => {
     if (selectPlay) {
@@ -48,7 +75,7 @@ const PostsBar = ({
     > 
       <Grid container spacing={0}>
         {postsList.length > 0 ? postsList.map((post, index) => {
-          return <Grid item className={!stringAnim ? 'animate-content-start posts-bar-item' : 'posts-bar-item'} xs={11} key={index+'box'} onClick={!selectPlay ? ()=>handleSelectPost(post) : ()=>console.log('')}>
+          return <Grid item className={!stringAnim ? 'animate-content-start posts-bar-item' : 'posts-bar-item'} xs={12} sm={12} key={index+'box'} onClick={!selectPlay ? ()=>handleSelectPost(post) : ()=>console.log('')}>
             <PostsBarItem 
               key={index+'k'} 
               indexKey={index}
@@ -60,8 +87,8 @@ const PostsBar = ({
         })
           : 
           <Grid item xs={12}>
-            <Box className='animate-content-start' display='flex' justifyContent='center' style={{paddingTop: '80px'}}>
-              <Button size='small' variant='outlined' disabled>Begin by creating a post above</Button>
+            <Box className='animate-content-start' display='flex' justifyContent='center' style={{paddingTop: '80px', paddingBottom: '80px'}}>
+              <Button size='small' variant='contained' disabled>Begin by creating a post above</Button>
             </Box>
           </Grid>
         }
