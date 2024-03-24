@@ -427,13 +427,13 @@ const Home = () => {
               </AccordionSummary>
               <AccordionDetails style={{display: 'flex', flexDirection: 'column'}}>
                 <div style={{display:'inline-flex'}}>
-                  <Icon style={{marginTop: '10px', marginRight: '5px'}}>add_circle_outline</Icon><p className='step-2'>Search for subjects using Last.fm & Google Books APIs on top and then choose a song and/or book to add</p>
+                  <Icon style={{marginTop: '10px', marginRight: '5px'}}>add_circle_outline</Icon><p className='step-2'>Search for subjects using Last.fm & Google Books APIs and then choose a song and/or book to add</p>
                 </div>
                 <div style={{display:'inline-flex'}}>
-                  <Icon fontSize='small' style={{marginTop: '10px', marginRight: '5px'}}>mode_comment</Icon><p className='step-2'>After writing your post, save at the bottom</p>
+                  <Icon fontSize='medium' style={{marginTop: '10px', marginRight: '5px'}}>cancel</Icon><p className='step-2'>If you want to go back, clear the search results by selecting the cancel button on the search bar</p>
                 </div>
                 <div style={{display:'inline-flex'}}>
-                  <Icon fontSize='large' style={{marginRight: '-10px', marginLeft: '-5px'}}>arrow_right</Icon><p className='step-2'>Choose your post to view on the sidebar, edit at the bottom, or navigate back to select a different post</p>
+                  <Icon fontSize='medium' style={{marginTop: '10px', marginRight: '5px'}}>mode_comment</Icon><p className='step-2'>Remember to save, click edit post to change post items and/or content</p>
                 </div>
               </AccordionDetails>
             </Accordion>

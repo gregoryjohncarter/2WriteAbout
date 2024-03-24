@@ -73,12 +73,11 @@ const PostsBar = ({
       className='posts-container'
       flexDirection='column'
     > 
-      <Grid container spacing={0}>
+      <Grid justifyContent='center' container spacing={0} style={{padding: '10px'}}>
         {postsList.length > 0 ? postsList.map((post, index) => {
-          return <Grid item className={!stringAnim ? 'animate-content-start posts-bar-item' : 'posts-bar-item'} xs={12} sm={12} key={index+'box'} onClick={!selectPlay ? ()=>handleSelectPost(post) : ()=>console.log('')}>
+          return <Grid style={{'--i': `${index}`}} item className={!stringAnim ? 'animate-content-start posts-bar-item' : 'posts-bar-item'} xs={11} sm={10} key={index+'box'} onClick={!selectPlay ? ()=>handleSelectPost(post) : ()=>console.log('')}>
             <PostsBarItem 
               key={index+'k'} 
-              indexKey={index}
               selectPlay={selectPlay} 
               stringAnim={stringAnim}
               post={post}
@@ -87,7 +86,7 @@ const PostsBar = ({
         })
           : 
           <Grid item xs={12}>
-            <Box className='animate-content-start' display='flex' justifyContent='center' style={{paddingTop: '80px', paddingBottom: '80px'}}>
+            <Box className='animate-content-start-def' display='flex' justifyContent='center' style={{paddingTop: '80px', paddingBottom: '80px'}}>
               <Button size='small' variant='contained' disabled>Begin by creating a post above</Button>
             </Box>
           </Grid>

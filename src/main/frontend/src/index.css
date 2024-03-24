@@ -257,7 +257,11 @@ textarea, input {
 }
 
 .animate-content-start {
-  animation: animate-start 3s ease;
+  animation: animate-start calc(1s * var(--i)) ease;
+}
+
+.animate-content-start-def {
+  animation: animate-start 2s ease;
 }
 
 .animate-content-end {
@@ -277,7 +281,7 @@ textarea, input {
 .filler2 {
   overflow: hidden;
   max-height: 0;
-  transition: max-height 1s cubic-bezier(0, 1, 0, 1);
+  transition: max-height 2s cubic-bezier(0, 1, 0, 1);
 }
 
 .filler2-full {
@@ -306,8 +310,13 @@ textarea, input {
   position: absolute;
   top: 0px;
   right: 0px;
+  transition: 1s right ease;
   background-color: #a9a9a9e6;
   border-radius: 10px;
+}
+
+.post-arrow-right-hover {
+  right: -20px;
 }
 
 .current-post-title {
@@ -459,7 +468,7 @@ textarea, input {
     border-top: 0px;
   }
   .posts-item {
-    max-height: 5ch;
+    max-height: 6ch;
   }
 }
 
