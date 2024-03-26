@@ -14,10 +14,8 @@
 	<name>2WriteAbout</name>
 	<description>Note taking web application</description>
 	<properties>
-
- <maven.compiler.source>1.8</maven.compiler.source>
- <maven.compiler.target>1.8</maven.compiler.target>
-
+	 	<maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
 		<java.version>8</java.version>
 		<node.version>v20.10.0</node.version>
 		<yarn.version>v1.12.1</yarn.version>
