@@ -50,7 +50,7 @@ const Home = () => {
       setGoogleApiItems([]);
     }
     try {
-      let apiUrlFm = "http://ws.audioscrobbler.com/2.0/?method=track.search&track=" + searchQuery.trim() + "&api_key=" + process.env.REACT_APP_MYAPI + "&format=json";
+      let apiUrlFm = "https://ws.audioscrobbler.com/2.0/?method=track.search&track=" + searchQuery.trim() + "&api_key=" + process.env.REACT_APP_MYAPI + "&format=json";
       let headers = new Headers({
         "Accept"       : "application/json",
         "Content-Type" : "application/json",
