@@ -46,6 +46,7 @@ body {
 .step-1 {
   font-family: 'PT Serif', serif, sans-serif;
   text-shadow: 0px 5px 5px #4b4b4b;
+  color: #9f9f9f;
 }
 
 .learn-more {
@@ -193,6 +194,7 @@ textarea, input {
 
 .posts-item-fade {
   opacity: 0;
+  cursor: progress;
 }
 
 @keyframes gradient {

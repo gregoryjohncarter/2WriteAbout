@@ -93,6 +93,12 @@ const Post = ({
     }
   }, [songTile]);
 
+  useEffect(() => {
+    if (currentPost) {
+      setPostTitleVal('');
+    }
+  }, [currentPost])
+
   return (
     <>
       {(newPost || postUpdate) ?
@@ -115,10 +121,10 @@ const Post = ({
               </Button> 
             :
               <div style={{display: 'flex', flexDirection: 'column'}}>
-                <Button onClick={()=>saveUpdatedPost(postTitleVal, postContentVal, songTile, bookTile, postUpdate.id)} variant='contained' color='inherit'>
+                <Button onClick={()=>saveUpdatedPost(postTitleVal, postContentVal, songTile, bookTile, postUpdate.userKey)} variant='contained' color='inherit'>
                   <Icon style={{marginRight: '10px'}}>mode_comment</Icon>Update post
                 </Button>
-                <Button style={{marginTop: '20px'}} onClick={()=>deletePost(postUpdate.id)} variant='contained' color='error'>
+                <Button style={{marginTop: '20px'}} onClick={()=>deletePost(postUpdate.userKey)} variant='contained' color='error'>
                   <Icon style={{marginRight: '10px'}}>delete</Icon>Delete post
                 </Button>
               </div>

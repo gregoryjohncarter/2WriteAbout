@@ -29,7 +29,7 @@ const Home = () => {
   useEffect(() => {
     if (loginStatus !== 0) {
       const postsRequest = async () => {
-        const posts = await fetch(`/post/${loginStatus}`);
+        const posts = await fetch(`/post/${loginStatus.id}`);
         let postsResults = await posts.json();
         setPostsList(postsResults);
       }
@@ -126,7 +126,7 @@ const Home = () => {
 
   const saveNewPost = async (title, text, songTile, bookTile) => {
     if (title.trim().length > 0 && text.trim().length > 0) {
-      let userId = loginStatus;
+      let userId = loginStatus.id;
       let song = '';
       let lastFmUrl = '';
       let artist = '';
@@ -143,6 +143,7 @@ const Home = () => {
         author = bookTile.author;
         googBooksUrl = bookTile.link;
       }
+      let userKey = loginStatus.key.replace(/[^\w\s]/gi, '');
       const response = await fetch(`/post`, {
         method: 'POST',
         body: JSON.stringify({
@@ -154,7 +155,8 @@ const Home = () => {
           author,
           googBooksUrl,
           text,
-          userId
+          userId,
+          userKey
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -163,7 +165,7 @@ const Home = () => {
       const idResponse = await response.json();
       const idLog = await idResponse;
       if (response.ok) {
-        setPostsList([...postsList, { id: idLog.id, title: title, song: song, lastFmUrl: lastFmUrl, artist: artist, book: book, author: author, googBooksUrl: googBooksUrl, text:text, userId: userId, createdAt: idLog.createdAt }]);
+        setPostsList([...postsList, { id: idLog.id, title: title, song: song, lastFmUrl: lastFmUrl, artist: artist, book: book, author: author, googBooksUrl: googBooksUrl, text:text, userId: userId, createdAt: idLog.createdAt, userKey: idLog.userKey }]);
         setNewPost(false);
         setPostUpdate(false);
         setCurrentPost(false);
@@ -179,9 +181,9 @@ const Home = () => {
     }
   }
 
-  const saveUpdatedPost = async (title, text, songTile, bookTile, id) => {
+  const saveUpdatedPost = async (title, text, songTile, bookTile, userKey) => {
     if (title.trim().length > 0 && text.trim().length > 0) {
-      let userId = loginStatus;
+      let userId = loginStatus.id;
       let song = '';
       let lastFmUrl = '';
       let artist = '';
@@ -198,7 +200,7 @@ const Home = () => {
         author = bookTile.author;
         googBooksUrl = bookTile.link;
       }
-      const response = await fetch(`/post/${id}`, {
+      const response = await fetch(`/post/${userKey}`, {
         method: 'PUT',
         body: JSON.stringify({
           title,
@@ -208,8 +210,7 @@ const Home = () => {
           book,
           author,
           googBooksUrl,
-          text,
-          userId
+          text
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -218,8 +219,8 @@ const Home = () => {
   
       if (response.ok) {
         setPostsList([...postsList.map((post) => {
-          if (post.id === postUpdate.id) {
-            return { id: post.id, title: title, song: song, lastFmUrl: lastFmUrl, artist: artist, book: book, author: author, googBooksUrl: googBooksUrl, text:text, userId: userId, createdAt: post.createdAt }
+          if (post.userKey === postUpdate.userKey) {
+            return { id: post.id, title: title, song: song, lastFmUrl: lastFmUrl, artist: artist, book: book, author: author, googBooksUrl: googBooksUrl, text:text, userId: userId, createdAt: post.createdAt, userKey: post.userKey }
           } else {
             return post 
           }
@@ -239,13 +240,13 @@ const Home = () => {
     }
   }
 
-  const deletePost = async (id) => {
-    const response = await fetch(`/post/${id}`, {
+  const deletePost = async (key) => {
+    const response = await fetch(`/post/${key}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
     });
     if (response.ok) {
-      setPostsList(postsList.filter((post) => { return post.id !== id }));
+      setPostsList(postsList.filter((post) => { return post.userKey !== key }));
       setPostUpdate(false);
       setCurrentPost(false);
       setNewPost(false);
@@ -354,8 +355,6 @@ const Home = () => {
                 setBookTile={setBookTile}
                 setLastApiItems={setLastApiItems}
                 setGoogleApiItems={setGoogleApiItems}
-                setNewPost={setNewPost}
-                newPost={newPost}
               />
             : displaySelect === 'select' ?
               <PostsBar 
@@ -412,7 +411,7 @@ const Home = () => {
             </div>
             <div style={{flex: '1 50%', display: 'inline-flex'}}>
               <Icon style={{borderBottom: '2px solid #4b6fbb'}}>add_box</Icon>
-              <h4 className='step-1'>Start writing posts for your own use</h4>
+              <h4 className='step-1'>Start writing posts for your own reference</h4>
             </div>
           </div>
           <div style={{padding: '40px', paddingTop: '0px'}}>
@@ -427,13 +426,16 @@ const Home = () => {
               </AccordionSummary>
               <AccordionDetails style={{display: 'flex', flexDirection: 'column'}}>
                 <div style={{display:'inline-flex'}}>
-                  <Icon style={{marginTop: '10px', marginRight: '5px'}}>add_circle_outline</Icon><p className='step-2'>Search for subjects using Last.fm & Google Books APIs and then choose a song and/or book to add</p>
+                  <Icon style={{marginTop: '10px', marginRight: '5px'}}>chat</Icon><p className='step-2'>Writing about a song and/or book is up to you, for example, potentially comparing them to one another {'('}lyrics, quotes, themes, etc.{')'}</p>
+                </div>
+                <div style={{display:'inline-flex'}}>
+                  <Icon style={{marginTop: '10px', marginRight: '5px'}}>add_circle_outline</Icon><p className='step-2'>{'('}<span style={{fontStyle:'italic'}}>Optional</span>{')'} Search for a song and/or book using Last.fm & Google Books APIs and then add them to your post as subjects with info links</p>
                 </div>
                 <div style={{display:'inline-flex'}}>
                   <Icon fontSize='medium' style={{marginTop: '10px', marginRight: '5px'}}>cancel</Icon><p className='step-2'>If you want to go back, clear the search results by selecting the cancel button on the search bar</p>
                 </div>
                 <div style={{display:'inline-flex'}}>
-                  <Icon fontSize='medium' style={{marginTop: '10px', marginRight: '5px'}}>mode_comment</Icon><p className='step-2'>Remember to save, click edit post to change post items and/or content</p>
+                  <Icon fontSize='medium' style={{marginTop: '10px', marginRight: '5px'}}>mode_comment</Icon><p className='step-2'>Remember to save, click edit post to change post subject items and/or content</p>
                 </div>
               </AccordionDetails>
             </Accordion>

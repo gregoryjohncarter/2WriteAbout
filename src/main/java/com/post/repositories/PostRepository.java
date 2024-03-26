@@ -7,5 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import com.post.entities.Post;
 
 public interface PostRepository extends CrudRepository<Post, Integer> {
-    List<Post> findByUserId(Integer userId);
+    List<Post> findByUserId(String userId);
+    Post findByUserKey(String userKey);
 }

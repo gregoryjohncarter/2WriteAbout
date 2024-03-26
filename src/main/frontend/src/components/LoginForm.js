@@ -36,7 +36,8 @@ const LoginForm = ({ openModal, setOpenModal, setLoginStatus, loginStatus }) => 
       if (response.ok) {
         const json = await response.json();
         const obj = await json;
-        setLoginStatus(obj.id);
+        const key = obj.id + obj.email.replace(/[^\w\s]/gi, '');
+        setLoginStatus({id: key, key: obj.email, user: obj.id});
         setOpenModal(false);
       } else {
         alert(response.statusText);
@@ -74,7 +75,7 @@ const LoginForm = ({ openModal, setOpenModal, setLoginStatus, loginStatus }) => 
   }
 
   const handleLogout = async () => {
-    const response = await fetch(`/logout/${loginStatus}`, {
+    const response = await fetch(`/logout/${loginStatus.user}`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' }
     });

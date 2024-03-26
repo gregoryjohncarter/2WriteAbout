@@ -44,7 +44,9 @@ public class Post {
     // @JoinColumn(name = "userId", nullable = false)
     // private User user;
 
-    private Integer userId;
+    private String userId;
+
+    private String userKey;
 
     public Integer getId() {
         return id;
@@ -118,12 +120,20 @@ public class Post {
         this.text = text;
     }
 
-    public Integer getUserId() { 
+    public String getUserId() { 
         return userId;
     }
 
-    public void setUserId(Integer userId) { 
+    public void setUserId(String userId) { 
         this.userId = userId; 
+    }
+
+    public String getUserKey() { 
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) { 
+        this.userKey = userKey; 
     }
 
     public Date getCreatedAt() {

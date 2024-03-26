@@ -23,10 +23,10 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/user")
-    public Iterable<User> getAllUsers() {
-        return this.userRepository.findAll();
-    }
+    // @GetMapping("/user")
+    // public Iterable<User> getAllUsers() {
+    //     return this.userRepository.findAll();
+    // }
 
     @PostMapping("/user")
     public User createNewUser(@RequestBody User user) {

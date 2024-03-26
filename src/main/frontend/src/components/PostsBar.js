@@ -87,7 +87,9 @@ const PostsBar = ({
           : 
           <Grid item xs={12}>
             <Box className='animate-content-start-def' display='flex' justifyContent='center' style={{paddingTop: '80px', paddingBottom: '80px'}}>
-              <Button size='small' variant='contained' disabled>Begin by creating a post above</Button>
+              <Button style={{color: '#a5a5a5'}} size='small' variant='contained' disabled>
+                Begin by creating a post above
+              </Button>
             </Box>
           </Grid>
         }
