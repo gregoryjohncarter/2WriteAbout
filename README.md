@@ -3,3 +3,9 @@ This app was created as an exercise in learning more about Java back end using S
 
 # References of tools used
 React.js, Java, Spring Boot, Last.fm API, Google Books API, Material UI, MySQL, Maven Resources Plugin, Frontend Maven Plugin
+
+# Deployed link
+<a href='https://writeabout2-077bb347dd31.herokuapp.com/'>Heroku link</a>
+
+# Screenshot
+<img src='./src/main/frontend/src/assets/2writeabout.png' alt='img screenshot app'/>
