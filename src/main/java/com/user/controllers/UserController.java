@@ -14,6 +14,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.net.http.HttpResponse;
+import java.net.http.HttpRequest;
+import java.net.http.HttpClient;
+import java.net.URI;
+import java.net.http.HttpResponse.BodyHandlers;
+
 @RestController
 public class UserController {
 
@@ -67,4 +76,25 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
     }
+
+    @GetMapping("/searchAPI/**")
+    public String searchLastFm(HttpServletRequest request1) throws Exception {
+        String baseUrl = request1.getRequestURL().toString();
+        String queryString = request1.getQueryString().toString();
+        String fullUrl = baseUrl + "?" + queryString;
+        String url = fullUrl.split("/searchAPI/")[1];
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+          .header("Content-Type", "application/json")
+          .header("Accept", "application/json")
+          .header("User-Agent", "mkvistrf2write")
+          .uri(URI.create(url))
+          .build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        return response.body();
+    }
 }
+
+
+
+

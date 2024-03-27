@@ -50,17 +50,9 @@ const Home = () => {
       setGoogleApiItems([]);
     }
     try {
-      let apiUrlFm = "https://ws.audioscrobbler.com/2.0/?method=track.search&track=" + searchQuery.trim() + "&api_key=" + process.env.REACT_APP_MYAPI + "&format=json";
-      let headers = new Headers({
-        "Accept"       : "application/json",
-        "Content-Type" : "application/json",
-        "User-Agent"   : process.env.REACT_APP_USERAGENT
-      });
-      let lastApiResults = await fetch(apiUrlFm, {
-        method  : 'GET', 
-        headers : headers 
-      });
-      let dataResults = await lastApiResults.json();
+      let apiUrlFm = "http://ws.audioscrobbler.com/2.0/?method=track.search&track=" + searchQuery.trim() + "&api_key=" + process.env.REACT_APP_MYAPI + "&format=json";
+      let lastApiServer = await fetch(`/searchAPI/${apiUrlFm}`)
+      let dataResults = await lastApiServer.json();
       if (dataResults.results.trackmatches.track.length > 0) {
         setLastApiItems(dataResults.results.trackmatches.track);
       } else {
